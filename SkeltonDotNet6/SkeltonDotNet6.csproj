@@ -6,6 +6,9 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Title>SkeltonDotNet6</Title>
+    <Authors>bry-ful</Authors>
+    <Company>bry-ful</Company>
   </PropertyGroup>
 
 </Project>

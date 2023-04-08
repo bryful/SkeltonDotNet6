@@ -121,30 +121,44 @@ namespace SkeltonDotNet6
 		public Color? ColorFromJson(JsonNode? jo)
 		{
 			Color? ret = null;
+			if (jo == null) return ret;
 			JsonArray? ja = jo.AsArray();
-			if (ja == null) return ret;
-			int a = 255;
-			int r = 255;
-			int g = 255;
-			int b = 255;
-			if (ja.Count >= 4)
+			if (ja != null)
 			{
-				a = ja[0].GetValue<int>();
-				r = ja[1].GetValue<int>();
-				g = ja[2].GetValue<int>();
-				b = ja[3].GetValue<int>();
-			}
-			else if (ja.Count == 3)
-			{
-				r = ja[0].GetValue<int>();
-				g = ja[1].GetValue<int>();
-				b = ja[2].GetValue<int>();
+				int? a = 255;
+				int? r = 255;
+				int? g = 255;
+				int? b = 255;
+				if (ja.Count >= 4)
+				{
+					a = ja[0].GetValue<int?>();
+					r = ja[1].GetValue<int?>();
+					g = ja[2].GetValue<int?>();
+					b = ja[3].GetValue<int?>();
+				}
+				else if (ja.Count == 3)
+				{
+					r = ja[0].GetValue<int>();
+					g = ja[1].GetValue<int>();
+					b = ja[2].GetValue<int>();
+				}
+				else
+				{
+					return ret;
+				}
+				if ((a != null) && (r != null) && (g != null) && (b != null))
+				{
+					return Color.FromArgb((int)a, (int)r, (int)g, (int)b);
+				}
+				else
+				{
+					return ret;
+				}
 			}
 			else
 			{
 				return ret;
 			}
-			return Color.FromArgb(a, r, g, b);
 		}
 		// *****************************************************************
 		static public JsonArray RectangleToJsonArray(Rectangle sz)

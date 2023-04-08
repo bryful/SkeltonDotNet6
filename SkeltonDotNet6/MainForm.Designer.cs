@@ -1,6 +1,6 @@
 ﻿namespace SkeltonDotNet6
 {
-	partial class FormForm
+	partial class MainForm
 	{
 		/// <summary>
 		///  Required designer variable.
@@ -28,12 +28,35 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 450);
-			this.Text = "Form1";
+			textBox1 = new TextBox();
+			SuspendLayout();
+			// 
+			// textBox1
+			// 
+			textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			textBox1.Location = new Point(12, 12);
+			textBox1.Multiline = true;
+			textBox1.Name = "textBox1";
+			textBox1.Size = new Size(409, 157);
+			textBox1.TabIndex = 0;
+			// 
+			// MainForm
+			// 
+			AllowDrop = true;
+			AutoScaleDimensions = new SizeF(7F, 15F);
+			AutoScaleMode = AutoScaleMode.Font;
+			ClientSize = new Size(433, 208);
+			Controls.Add(textBox1);
+			Name = "MainForm";
+			RightToLeftLayout = true;
+			StartPosition = FormStartPosition.Manual;
+			Text = "MainForm";
+			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		#endregion
+
+		private TextBox textBox1;
 	}
 }

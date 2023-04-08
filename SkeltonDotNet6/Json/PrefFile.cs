@@ -8,7 +8,8 @@ namespace SkeltonDotNet6
 {
 	public class PrefFile
 	{
-		JsonFile JsonFile { get; set; } = new JsonFile();
+		private Form? m_form=null;
+		public JsonFile JsonFile { get; set; } = new JsonFile();
 		// *********************************
 		private string m_AppName = "";
 		public string AppName { get { return m_AppName; } }
@@ -17,14 +18,57 @@ namespace SkeltonDotNet6
 		public string AppDataPath { get { return m_AppDataPath; } }
 		private string m_AppDataDirectory = "";
 		public string AppDataDirectory { get { return m_AppDataDirectory; } }
-		public PrefFile()
+		// ****************************************************
+		public PrefFile(Form fm)
 		{
+			m_form = fm;
 			m_AppName = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
 			m_AppDataDirectory = GetAppDataPath();
 			m_AppDataPath = Path.Combine(m_AppDataDirectory, m_AppName + ".json");
 
 		}
+		// ****************************************************
+		public bool SetBounds()
+		{
+			if (m_form == null) return false;
+			JsonFile.SetValue("Bouns", m_form.Bounds);
+			return true;
+		}
+		// ****************************************************
+		public Rectangle? GetBounds()
+		{
+			Rectangle? ret = null;
+			if (m_form == null) return ret;
+			ret =  JsonFile.ValueRectangle("Bouns");
+			if(ret != null)
+			{
+				if(IsInRect(NowScreen(m_form),(Rectangle)ret)==false)
+				{
+					ret = null;
+				}
+				if(ret !=null)
+				{
+					m_form.StartPosition = FormStartPosition.Manual;
+					m_form.WindowState = FormWindowState.Normal;
+					m_form.Bounds = (Rectangle)ret;
+				}
+			}
+			return ret;
+		}
+		// ****************************************************
+		public bool Save(string s = "")
+		{
+			if (s == "") s = m_AppDataPath;
 
+			return JsonFile.Save(s);
+		}
+		// ****************************************************
+		public bool Load(string s = "")
+		{
+			if (s == "") s = m_AppDataPath;
+
+			return JsonFile.Load(s);
+		}
 		// ****************************************************
 		static public string GetAppDataPath()
 		{
@@ -34,11 +78,9 @@ namespace SkeltonDotNet6
 		static public string GetFileSystemPath(Environment.SpecialFolder folder)
 		{
 			// パスを取得
-			string path = String.Format(@"{0}\{1}",//\{2}
-			  Environment.GetFolderPath(folder),  // ベース・パス
-												  //Application.CompanyName,            // 会社名
-			  Application.ProductName
-			  );           // 製品名
+			string path = $"{Environment.GetFolderPath(folder)}\\"
+				+ $"{Application.CompanyName}\\"
+				+ $"{Application.ProductName}";
 
 			// パスのフォルダを作成
 			lock (typeof(Application))
@@ -51,15 +93,15 @@ namespace SkeltonDotNet6
 			return path;
 		}
 		// ****************************************************
-		static public bool IsInRect(Rectangle a, Rectangle b)
+		static public bool IsInRect(Rectangle scr, Rectangle b)
 		{
 			bool ret = true;
 
-			if ((a.Left > b.Left + b.Width) || (a.Left + a.Width < b.Left))
+			if ((scr.Left > b.Left + b.Width) || (scr.Left + scr.Width < b.Left))
 			{
 				ret = false;
 			}
-			if ((a.Top > b.Top + b.Height) || (a.Top + a.Height < b.Top))
+			if ((scr.Top > b.Top + b.Height) || (scr.Top + scr.Height < b.Top))
 			{
 				ret = false;
 			}
@@ -82,24 +124,15 @@ namespace SkeltonDotNet6
 			return ret;
 		}
 		// ****************************************************
-		static public Rectangle NowScreen(Rectangle rct)
+		static public Rectangle NowScreen(Form fm)
 		{
-			Rectangle ret = new Rectangle(0, 0, 0, 0);
-			foreach (Screen s in Screen.AllScreens)
-			{
-				Rectangle r = s.WorkingArea;
-				if (IsInRect(r, rct))
-				{
-					ret = r;
-					break;
-				}
-			}
-			return ret;
+			return Screen.FromControl(fm).WorkingArea;
 		}
 		// ****************************************************
 		static public bool ScreenIn(Point p, Size sz)
 		{
 			return ScreenIn(new Rectangle(p, sz));
 		}
+		
 	}
 }
