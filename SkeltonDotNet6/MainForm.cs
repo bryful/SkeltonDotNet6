@@ -1,6 +1,6 @@
 namespace SkeltonDotNet6
 {
-	public partial class MainForm : Form
+	public partial class MainForm : BaseForm
 	{
 		// ********************************************************************
 		private F_Pipe m_Server = new F_Pipe();
@@ -53,9 +53,9 @@ namespace SkeltonDotNet6
 		public void Command(string[] args, PIPECALL IsPipe = PIPECALL.StartupExec)
 		{
 			string ret = "";
-			if(args.Length > 0)
+			if (args.Length > 0)
 			{
-				foreach(string arg in args)
+				foreach (string arg in args)
 				{
 					if (ret != "") ret += ",\r\n";
 					ret += arg;
