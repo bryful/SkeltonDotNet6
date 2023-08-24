@@ -114,7 +114,7 @@ namespace SkeltonDotNet6
 				JsonArray? ja = obj["Args"].AsArray();
 				if ((ja!=null)&&(ja.Count > 0))
 				{
-					foreach (JsonObject? item in ja)
+					foreach (var item in ja)
 					{
 						string a = "";
 						if (item != null)

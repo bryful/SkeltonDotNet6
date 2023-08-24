@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Unicode;
 using System.Threading.Tasks;
+
 namespace SkeltonDotNet6
 {
 	/// <summary>
@@ -15,7 +16,7 @@ namespace SkeltonDotNet6
 	/// </summary>
 	public class AEJson
 	{
-		static private bool StringBlock(string s,int idx,out int result)
+		static private bool StringBlock(string s, int idx, out int result)
 		{
 			bool ret = false;
 			result = -1;
@@ -38,11 +39,11 @@ namespace SkeltonDotNet6
 		{
 			bool ret = false;
 
-			for(int i= idx; i < s.Length; i++)
+			for (int i = idx; i < s.Length; i++)
 			{
 				if ((s[i] == ' ') || (s[i] == '\t') || (s[i] == '\r') || (s[i] == 'n'))
 					continue;
-				if(s[i] == ':')
+				if (s[i] == ':')
 				{
 					ret = true;
 				}
@@ -62,7 +63,7 @@ namespace SkeltonDotNet6
 			int idx = 0;
 			int len = s.Length;
 			string block = "";
-			while(idx<len)
+			while (idx < len)
 			{
 				//string ss = s.Substring(idx, 1);
 				int j = 0;
@@ -81,11 +82,11 @@ namespace SkeltonDotNet6
 					}
 					continue;
 				}
-				if (s[idx]=='{')
+				if (s[idx] == '{')
 				{
 					ret += block; block = "";
 					ret += "({";
-					idx ++;
+					idx++;
 					continue;
 				}
 				if (s[idx] == '}')
@@ -95,7 +96,7 @@ namespace SkeltonDotNet6
 					idx++;
 					continue;
 				}
-				if ((s[idx] ==' ')|| (s[idx] == '\t')||(s[idx] == '\r')||(s[idx] == '\n'))
+				if ((s[idx] == ' ') || (s[idx] == '\t') || (s[idx] == '\r') || (s[idx] == '\n'))
 				{
 					idx++;
 					continue;

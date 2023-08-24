@@ -8,7 +8,7 @@ namespace SkeltonDotNet6
 {
 	public class PrefFile
 	{
-		private Form? m_form=null;
+		private Form? m_form = null;
 		public JsonFile JsonFile { get; set; } = new JsonFile();
 		// *********************************
 		private string m_AppName = "";
@@ -39,20 +39,40 @@ namespace SkeltonDotNet6
 		{
 			Rectangle? ret = null;
 			if (m_form == null) return ret;
-			ret =  JsonFile.ValueRectangle("Bouns");
-			if(ret != null)
+			Rectangle? rct = JsonFile.ValueRectangle("Bouns");
+			bool isIn = false;
+			if (rct != null)
 			{
-				if(IsInRect(NowScreen(m_form),(Rectangle)ret)==false)
+				foreach (System.Windows.Forms.Screen s in System.Windows.Forms.Screen.AllScreens)
 				{
-					ret = null;
+					//ディスプレイのデバイス名を表示
+					//Console.WriteLine("デバイス名:{0}", s.DeviceName);
+					//ディスプレイの左上の座標を表示
+					//Console.WriteLine("X:{0} Y:{1}", s.Bounds.X, s.Bounds.Y);
+					//ディスプレイの大きさを表示
+					//Console.WriteLine("高さ:{0} 幅:{1}", s.Bounds.Height, s.Bounds.Width);
+					if (IsInRect(s.Bounds, (Rectangle)rct))
+					{
+						isIn = true;
+					}
 				}
-				if(ret !=null)
-				{
-					m_form.StartPosition = FormStartPosition.Manual;
-					m_form.WindowState = FormWindowState.Normal;
-					m_form.Bounds = (Rectangle)ret;
-				}
+
+
+
 			}
+			if ((isIn == false)||(rct==null))
+			{
+				m_form.StartPosition = FormStartPosition.Manual;
+				m_form.WindowState = FormWindowState.Normal;
+				Rectangle ff = Screen.PrimaryScreen.Bounds;
+				Point point = new Point(ff.Left + (ff.Width - m_form.Width) / 2, ff.Top + (ff.Height - m_form.Height) / 2);
+				m_form.Location = point;
+			}
+			else
+			{
+				m_form.Bounds = (Rectangle)rct;
+			}
+
 			return ret;
 		}
 		// ****************************************************
@@ -133,6 +153,6 @@ namespace SkeltonDotNet6
 		{
 			return ScreenIn(new Rectangle(p, sz));
 		}
-		
+
 	}
 }

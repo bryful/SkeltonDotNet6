@@ -2,6 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,11 +12,9 @@ using System.Text.Json.Nodes;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 
 namespace SkeltonDotNet6
 {
-
 	public class JsonFile
 	{
 		// *********************************************************************************************************
@@ -52,7 +51,7 @@ namespace SkeltonDotNet6
 		{
 			try
 			{
-				if ((js==null)||(js == "")) return;
+				if ((js == null) || (js == "")) return;
 				var doc = JsonNode.Parse(js);
 				if (doc != null)
 				{
@@ -63,7 +62,7 @@ namespace SkeltonDotNet6
 			{
 				Obj = new JsonObject();
 			}
-		}       
+		}
 		// ****************************************************
 		public bool Save(string p)
 		{
@@ -393,7 +392,7 @@ namespace SkeltonDotNet6
 		public void SetValue(string key, StringAlignment sa)
 		{
 			if (Obj == null) return;
-			
+
 			if (Obj.ContainsKey(key))
 			{
 				Obj[key] = (int)sa;
@@ -517,9 +516,9 @@ namespace SkeltonDotNet6
 		{
 			if (Obj == null) return;
 			JsonArray ja = new JsonArray();
-			if(sc.Count>0)
+			if (sc.Count > 0)
 			{
-				foreach(var s in sc )
+				foreach (var s in sc)
 				{
 					if (s != null)
 					{
@@ -538,7 +537,7 @@ namespace SkeltonDotNet6
 				Obj.Add(key, ja);
 			}
 		}
-		
+
 		public void SetValue(string key, ListBox.ObjectCollection sc)
 		{
 			if (Obj == null) return;
@@ -570,9 +569,9 @@ namespace SkeltonDotNet6
 		{
 			if (Obj == null) return;
 			JsonArray ja = new JsonArray();
-			if(ary.Length>0)
+			if (ary.Length > 0)
 			{
-				foreach(string s in ary)
+				foreach (string s in ary)
 				{
 					ja.Add(s);
 				}
@@ -608,7 +607,7 @@ namespace SkeltonDotNet6
 		//SizeGripStyle
 		// *****************************************************************************************
 		// *****************************************************************************************
-		public object? ValueAuto(string key,string typeN)
+		public object? ValueAuto(string key, string typeN)
 		{
 			object? ret = null;
 			if (Obj == null) return ret;
@@ -759,7 +758,7 @@ namespace SkeltonDotNet6
 					}
 					ret = list.ToArray();
 				}
-			}	
+			}
 			return ret;
 		}
 		public int? ValueInt(string key)
@@ -782,7 +781,7 @@ namespace SkeltonDotNet6
 				if (Obj.ContainsKey(key))
 				{
 					int? v = Obj[key].GetValue<int?>();
-					if(v!=null)
+					if (v != null)
 					{
 						ret = (StringAlignment?)v;
 					}
@@ -935,22 +934,22 @@ namespace SkeltonDotNet6
 			if (Obj.ContainsKey(key))
 			{
 				JsonArray? ja = Obj[key].AsArray();
-				if ((ja != null)&&(ja.Count>0))
+				if ((ja != null) && (ja.Count > 0))
 				{
 					List<Color> result = new List<Color>();
-					foreach(var o in ja)
+					foreach (var o in ja)
 					{
-						if((o!=null)&&(o is JsonArray))
+						if ((o != null) && (o is JsonArray))
 						{
 							Color? cc = ColorFromJson(o);
-							if(cc!=null)
+							if (cc != null)
 							{
 								result.Add((Color)cc);
 							}
 
 						}
 					}
-					ret = result.ToArray();	
+					ret = result.ToArray();
 				}
 			}
 			return ret;
@@ -1062,7 +1061,7 @@ namespace SkeltonDotNet6
 			}
 			return ret;
 		}
-	
+
 		// ****************************************************
 		public AnchorStyles? ValueAnchorStyles(string key)
 		{
@@ -1121,12 +1120,12 @@ namespace SkeltonDotNet6
 				{
 					JsonArray? ja = Obj[key].AsArray();
 					ret = new StringCollection();
-					if ((ja != null)&&(ja.Count>0))
+					if ((ja != null) && (ja.Count > 0))
 					{
-						foreach(var s in ja)
+						foreach (var s in ja)
 						{
 							string? ss = (string?)s;
-							if (s !=null)
+							if (s != null)
 							{
 								ret.Add(ss);
 							}
@@ -1150,7 +1149,7 @@ namespace SkeltonDotNet6
 						foreach (var s in ja)
 						{
 							string? ss = (string?)s;
-							if (s != null)
+							if (ss != null)
 							{
 								list.Add(ss);
 							}
